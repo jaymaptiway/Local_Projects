@@ -1,21 +1,27 @@
-//
-//  ContentView.swift
-//  MyUiSwift
-//
-//  Created by Prabhakar Bunga on 01/04/26.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var vm = BankingViewModel()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack{
+            if vm.isLoggedIn {
+                DashboardView(vm: vm)
+            } else {
+                NavigationStack {
+                        LoginView(vm: vm)
+                    }
+            }
         }
-        .padding()
+    }
+}
+
+import UIKit
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder),
+                   to: nil, from: nil, for: nil)
     }
 }
 
